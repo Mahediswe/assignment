@@ -1,43 +1,48 @@
-const Expense = require('../models/Expense');
+import Expense from "../models/Expense.js";
 
 // Add Expense
-exports.addExpense = async (req, res) => {
+export const addExpense = async (req, res) => {
   try {
     const { title, amount, category, date } = req.body;
-    const newExpense = new Expense({ title, amount, category, date });
-    await newExpense.save();
-    res.status(201).json(newExpense);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const expense = await Expense.create({ title, amount, category, date });
+    res.status(201).json(expense);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };
 
 // Get All Expenses
-exports.getExpenses = async (req, res) => {
+export const getExpenses = async (req, res) => {
   try {
-    const expenses = await Expense.find().sort({ date: -1 });
+    const expenses = await Expense.find().sort({ date: -1, createdAt: -1 });
     res.json(expenses);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
 // Update Expense
-exports.updateExpense = async (req, res) => {
+export const updateExpense = async (req, res) => {
   try {
-    const updated = await Expense.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updated);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const expense = await Expense.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    if (!expense) return res.status(404).json({ message: "Expense not found" });
+    res.json(expense);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
   }
 };
 
 // Delete Expense
-exports.deleteExpense = async (req, res) => {
+export const deleteExpense = async (req, res) => {
   try {
-    await Expense.findByIdAndDelete(req.params.id);
-    res.json({ message: "Expense Deleted" });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    const expense = await Expense.findByIdAndDelete(req.params.id);
+    if (!expense) return res.status(404).json({ message: "Expense not found" });
+    res.json({ message: "Expense deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
