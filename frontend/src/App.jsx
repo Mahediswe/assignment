@@ -1,9 +1,9 @@
 import React from 'react'
-
+import Home from './componennts/Home'
 const App = () => {
   return (
     <div>
-      Expense Tracker
+      <Home/>
     </div>
   )
 }
