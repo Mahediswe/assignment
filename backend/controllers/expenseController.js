@@ -86,15 +86,20 @@
 //   }
 // };
 
-
-
 import Expense from "../models/Expense.js";
 
 // Create
 export const addExpense = async (req, res) => {
   try {
     const { title, amount, category, date } = req.body;
-    const expense = await Expense.create({ title, amount, category, date, user: req.user._id });
+    const userId = req.user._id;
+    const expense = await Expense.create({
+      title,
+      amount,
+      category,
+      date,
+      user: req.user._id,
+    });
     res.status(201).json(expense);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -112,7 +117,10 @@ export const getExpenses = async (req, res) => {
       filter.date = { $gte: new Date(startDate), $lte: new Date(endDate) };
     }
 
-    const expenses = await Expense.find(filter).sort({ date: -1, createdAt: -1 });
+    const expenses = await Expense.find(filter).sort({
+      date: -1,
+      createdAt: -1,
+    });
     res.json(expenses);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -137,7 +145,10 @@ export const updateExpense = async (req, res) => {
 // Delete
 export const deleteExpense = async (req, res) => {
   try {
-    const deleted = await Expense.findOneAndDelete({ _id: req.params.id, user: req.user._id });
+    const deleted = await Expense.findOneAndDelete({
+      _id: req.params.id,
+      user: req.user._id,
+    });
     if (!deleted) return res.status(404).json({ message: "Expense not found" });
     res.json({ message: "Expense deleted" });
   } catch (err) {

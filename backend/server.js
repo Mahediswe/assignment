@@ -5,6 +5,7 @@ import connectDB from "./config/db.js";
 import expenseRoutes from "./routes/expenseRoutes.js";
 import { verifyToken } from './middlewares/auth.js';
 import authRoutes from './routes/authRoutes.js'
+import { addExpense } from "./controllers/expenseController.js";
 dotenv.config();
 connectDB();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 app.use("/api/expenses", expenseRoutes);
+app.post("/api/expenses", verifyToken, addExpense);
 
 app.get("/", (req, res) => {
   res.send("Expense Tracker API is running");

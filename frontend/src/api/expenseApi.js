@@ -8,8 +8,14 @@ const getAuthHeader = () => {
 };
 
 export const getExpenses = () => axios.get(API_URL, { headers: getAuthHeader() });
-export const addExpense = (data) => axios.post(API_URL, data, { headers: getAuthHeader() });
-export const updateExpense = (id, data) => axios.put(`${API_URL}/${id}`, data, { headers: getAuthHeader() });
+export const addExpense = (data) =>
+  axios.post(API_URL, data, {
+    headers: { ...getAuthHeader(), "Content-Type": "application/json" }
+  });
+export const updateExpense = (id, data) =>
+  axios.put(`${API_URL}/${id}`, data, {
+    headers: { ...getAuthHeader(), "Content-Type": "application/json" }
+  });
 export const deleteExpense = (id) => axios.delete(`${API_URL}/${id}`, { headers: getAuthHeader() });
 
 //  Add this function

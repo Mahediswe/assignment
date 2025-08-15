@@ -14,8 +14,9 @@ const ExpenseList = ({ expenses, onDelete, onEdit }) => {
   const total = expenses.reduce((acc, exp) => acc + (Number(exp.amount) || 0), 0);
 
   return (
-    <div className="mt-6">
-      <h2 className="text-xl font-bold mb-3">Total: ${total.toFixed(2)}</h2>
+    <div className="mt-6 ">
+      <h1 className="text-3xl font-bold text-center">Expense List</h1>
+      <h2 className="text-2xl font-bold mb-3">TOTAL: ${total.toFixed(2)}</h2>
 
       <div className="space-y-2">
         {expenses.map((exp) => (

@@ -11,6 +11,8 @@ router.get('/', verifyToken, getExpenses);
 router.post('/', verifyToken, addExpense);
 router.patch('/:id', verifyToken, updateExpense);
 router.delete('/:id', verifyToken, deleteExpense);
+router.put("/:id", verifyToken, updateExpense);
+
 router.get('/filter', verifyToken, filterExpenses);
 
 export default router;
