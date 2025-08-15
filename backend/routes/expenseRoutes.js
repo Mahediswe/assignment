@@ -1,16 +1,16 @@
 import express from "express";
 import { addExpense, getExpenses, updateExpense, deleteExpense } from "../controllers/expenseController.js";
 import {filterExpenses} from '../controllers/expenseController.js'
-import { auth } from "../middlewares/auth.js";
+import { verifyToken } from '../middlewares/auth.js';
 
 const router = express.Router();
 
-router.use(auth);
+router.use(verifyToken);
 
-router.post("/", addExpense);
-router.get("/", getExpenses);
-router.put("/:id", updateExpense);
-router.delete("/:id", deleteExpense);
-router.get('/filter', filterExpenses);
+router.get('/', verifyToken, getExpenses);
+router.post('/', verifyToken, addExpense);
+router.patch('/:id', verifyToken, updateExpense);
+router.delete('/:id', verifyToken, deleteExpense);
+router.get('/filter', verifyToken, filterExpenses);
 
 export default router;

@@ -3,7 +3,8 @@ import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import expenseRoutes from "./routes/expenseRoutes.js";
-
+import { verifyToken } from './middlewares/auth.js';
+import authRoutes from './routes/authRoutes.js'
 dotenv.config();
 connectDB();
 
