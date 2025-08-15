@@ -14,6 +14,7 @@ export const addExpense = async (req, res) => {
 // Get All Expenses
 export const getExpenses = async (req, res) => {
   try {
+    
     const expenses = await Expense.find().sort({ date: -1, createdAt: -1 });
     res.json(expenses);
   } catch (err) {
@@ -44,5 +45,32 @@ export const deleteExpense = async (req, res) => {
     res.json({ message: "Expense deleted" });
   } catch (err) {
     res.status(500).json({ message: err.message });
+  }
+};
+
+// Filter Expense
+export const filterExpenses = async (req, res) => {
+  try {
+    const { category, startDate, endDate } = req.query;
+
+    let query = {};
+
+    // category filter
+    if (category) {
+      query.category = category;
+    }
+
+    // date range filter
+    if (startDate && endDate) {
+      query.date = {
+        $gte: new Date(startDate),
+        $lte: new Date(endDate)
+      };
+    }
+
+    const expenses = await Expense.find(query);
+    res.status(200).json(expenses);
+  } catch (error) {
+    res.status(500).json({ message: "Error filtering expenses", error });
   }
 };
