@@ -19,6 +19,9 @@ const AddExpenseForm = ({ onAdd }) => {
     setTitle(""); setAmount(""); setCategory("Food"); setDate("");
   };
 
+
+
+
   return (
     <form onSubmit={handleSubmit} className="p-4 bg-white shadow rounded space-y-4">
       <div>
